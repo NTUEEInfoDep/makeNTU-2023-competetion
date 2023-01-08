@@ -25,9 +25,11 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import HomeIcon from "@mui/icons-material/Home"; // Main
 import ExitToAppIcon from "@mui/icons-material/ExitToApp"; // Login, Logout
 import PeopleIcon from "@mui/icons-material/People"; // Student Data
-
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"; // admin icon
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Redirect } from "react-router";
 import { selectSession, logout } from "../../slices/sessionSlice";
+
 // route
 
 const drawerWidth = 200;
@@ -46,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     color: "#fff",
     boxShadow: "none",
-    backgroundColor: "rgb(25,34,49,.7)",
+    // backgroundColor: "rgb(25,34,49,.7)",
+    backgroundColor: "black",
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -153,12 +156,27 @@ const Drawer = ({ children }) => {
         1: [
           { text: "Main", to: "/", icon: <HomeIcon /> },
           {
-            text: "Student Data",
+            text: "雷射切割機管理",
+            to: "/adminlasercutter",
+            icon: <AdminPanelSettingsIcon />,
+          },
+          {
+            text: "3D列印機管理",
+            to: "/3dp",
+            icon: <AdminPanelSettingsIcon />,
+          },
+          {
+            text: "各組資料",
             to: "/studentdata",
             icon: <PeopleIcon />,
           },
         ],
-      }[authority] || [{ text: "Main", to: "/", icon: <HomeIcon /> }];
+        0: [
+          { text: "Main", to: "/", icon: <HomeIcon /> },
+          { text: "雷射切割機借用", to: "/lasercutter", icon: <PostAddIcon /> },
+          { text: "3D列印機借用", to: "/3dp", icon: <PostAddIcon /> },
+        ],
+      }[authority];
 
   const userName = isLogin ? userID : "";
 

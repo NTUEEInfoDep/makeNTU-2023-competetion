@@ -5,12 +5,15 @@ import { makeStyles } from "@mui/styles";
 import { Button, Grid, Paper, Typography } from "@mui/material/";
 import { Link, useHistory } from "react-router-dom";
 import { selectSession } from "../../slices/sessionSlice";
+import makentuImg from "../../assets/images/makeNTU.png";
+import makeNTU_big from "../../assets/images/makeNTU_big.png";
+
 /**
  * This is Main Page
  */
 export default function Top() {
   const history = useHistory();
-
+  const { authority, teamID } = useSelector(selectSession);
   const useStyles = makeStyles(() => ({
     root: {
       flexGrow: 1,
@@ -21,6 +24,8 @@ export default function Top() {
     paper: {
       background: "rgb(0,0,0,.0)",
       boxShadow: "none",
+      width: "100%",
+      height: "100%",
     },
     text: {
       margin: "auto",
@@ -45,18 +50,27 @@ export default function Top() {
           container
           direction="column"
           style={{
-            // boxShadow: "0 0 15px #f3d42e inset",
             padding: "10px",
             margin: "auto",
             marginTop: "5%",
-            marginLeft: "30%",
             width: "90%",
-            maxWidth: "500px",
-            maxHeight: "500px",
+            height: "90%",
           }}
         >
-          <Paper className={classes.paper}>
-            <Grid item style={{ marginTop: "15%", marginLeft: "5%" }}>
+          {/*<Paper className={classes.paper}>*/}
+          <Grid container spacing={2} style={{ marginTop: "10%" }}>
+            <Grid
+              item
+              xs={12}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img src={makeNTU_big} style={{ borderRadius: "2%" }} />
+            </Grid>
+            <Grid item xs={8} style={{ marginTop: "2.4%", marginLeft: "5%" }}>
               <Typography
                 gutterBottom
                 variant="h5"
@@ -67,50 +81,92 @@ export default function Top() {
               </Typography>
               <Typography
                 variant="h3"
-                className={classes.text}
+                // className={classes.text}
                 style={{ marginBottom: "18px" }}
               >
-                Competition Web
+                競賽網站
               </Typography>
             </Grid>
+            {/*<Grid item xs={2} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>*/}
+            {/*  <img src={makentuImg} alt="makeNTU" style={{ width: "70%", borderRadius: "50%" }} />*/}
+            {/*</Grid>*/}
             {!isLogin && (
-              <Button
-                style={{
-                  width: "70%",
-                  display: "flex",
-                  margin: "auto",
-                  marginTop: "15%",
-                  marginBottom: "3%",
-                }}
-                variant="outlined"
-                color="primary"
-                onClick={() => history.push("/login")}
-              >
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to="/login"
+              <Grid item xs={12}>
+                <Button
+                  style={{
+                    width: "60%",
+                    height: "30%",
+                    display: "flex",
+                    margin: "auto",
+                    marginTop: "10%",
+                    marginBottom: "3%",
+                  }}
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => history.push("/login")}
                 >
-                  Log in
-                </Link>
-              </Button>
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to="/login"
+                  >
+                    Log in
+                  </Link>
+                </Button>
+              </Grid>
             )}
-            {/* <Button
-              style={{
-                width: "70%",
-                display: "flex",
-                margin: "auto",
-              }}
-              variant="contained"
-              color="primary"
-            >
-              <Link
-                style={{ textDecoration: "none", color: "white" }}
-                to="/courses"
-              >
-                Start to Select Courses
-              </Link>
-            </Button> */}
-          </Paper>
+            {isLogin && (
+              <Grid item xs={12}>
+                <Button
+                  style={{
+                    width: "70%",
+                    // height: "30%",
+                    display: "flex",
+                    margin: "auto",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => history.push("/3dp")}
+                >
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to="/courses"
+                  >
+                    3D Printer
+                  </Link>
+                </Button>
+              </Grid>
+            )}
+            {isLogin && (
+              <Grid item xs={12}>
+                <Button
+                  style={{
+                    width: "70%",
+                    // height: "30%",
+                    display: "flex",
+                    margin: "auto",
+                  }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    history.push(
+                      `/${authority ? "adminlasercutter" : "lasercutter"}`
+                    )
+                  }
+                >
+                  <Link
+                    style={{ textDecoration: "none", color: "white" }}
+                    to="/courses"
+                  >
+                    雷切
+                  </Link>
+                </Button>
+              </Grid>
+            )}
+            {/*<Grid item xs={12} style={{ width: "100%", display: "flex", justifyContent: "center" }}>*/}
+            {/*  <img src={makentuImg} style={{ borderRadius: "50%" }} />*/}
+            {/*</Grid>*/}
+          </Grid>
+          {/*</Paper>*/}
         </Grid>
       </div>
     </Element>

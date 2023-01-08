@@ -22,8 +22,7 @@ const Text = styled.h1`
 const Members = styled.div`
   width: 80%;
   display: flex;
-  // height: 150px;
-  height: "auto";
+  height: 150px;
   /* overflow:auto; */
   flex-direction: column;
   font-size: 12px;
@@ -44,8 +43,6 @@ const Members = styled.div`
     letter-spacing: 1.5px;
     line-height: 1.5;
     flex-direction: column;
-    // justify-content: space-between;
-    /* align-items:center; */
     padding-left: 8px;
     padding-right: 8px;
   }
@@ -56,7 +53,7 @@ export default function Footer() {
     <FooterContainer>
       <Text>Developers</Text>
       <Members>
-        <p> 徐明晧 林和毅 王雅茵 </p>
+        <p> 徐明晧 </p>
       </Members>
     </FooterContainer>
   );

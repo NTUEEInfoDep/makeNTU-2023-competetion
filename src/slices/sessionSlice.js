@@ -14,12 +14,12 @@ export const sessionSlice = createSlice({
     setLogin: (state, action) => {
       state.isLogin = true;
       state.authority = action.payload.authority;
-      state.userID = action.payload.teamID;
+      state.teamID = action.payload.teamID;
     },
     setLogout: (state) => {
       state.isLogin = false;
       state.authority = null;
-      state.userID = null;
+      state.teamID = null;
     },
     //initialize
     setInitialized: (state) => {

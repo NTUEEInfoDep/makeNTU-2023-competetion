@@ -12,8 +12,7 @@ export default function AdminRoute({ children, path }) {
       path={path}
       render={() => {
         if (!isLogin) return <Redirect to="/login" />;
-        if (authority !== 2 && children.type.name !== "Selection")
-          return <Redirect to="/" />;
+        if (authority === 0) return <Redirect to="/" />;
         return children;
       }}
     />

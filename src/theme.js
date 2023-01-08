@@ -2,25 +2,31 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   typography: {
-    fontFamily: ["Ubuntu Condensed", "sans-serif"].join(","),
+    fontFamily: [
+      "HP Simplified Hans",
+      "LXGW WenKai",
+      "Microsoft JhengHei",
+      "Ubuntu Condensed",
+      "sans-serif",
+    ].join(","),
     fontSize: 15,
   },
   palette: {
     mode: "dark",
-    primary: {
-      light: "#0066ff",
-      main: "#0044ff",
-      // dark: will be calculated from palette.secondary.main,
-      contrastText: "#ffcc00",
-    },
-    secondary: {
-      main: "#b2dfdb",
-      light: "#c1e5e2",
-      contrastText: "#000",
-    },
-    background: {
-      paper: "rgba(0, 0, 0, 0.1)",
-    },
+    // primary: {
+    //   light: "#0066ff",
+    //   main: "#0044ff",
+    //   // dark: will be calculated from palette.secondary.main,
+    //   contrastText: "#ffcc00",
+    // },
+    // secondary: {
+    //   main: "#b2dfdb",
+    //   light: "#c1e5e2",
+    //   contrastText: "#000",
+    // },
+    // background: {
+    //   paper: "rgba(0, 0, 0, 0.1)",
+    // },
   },
   breakpoints: {
     values: {
@@ -36,9 +42,9 @@ const theme = createTheme({
     MuiCssBaseline: {
       "@global": {
         body: {
-          background: "linear-gradient(170deg, #192231 70%, #B6A19E 10%)",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
+          // background: "linear-gradient(170deg, #192231 70%, #B6A19E 10%)",
+          // backgroundRepeat: "no-repeat",
+          // backgroundAttachment: "fixed",
         },
       },
     },

@@ -1,0 +1,118 @@
+type Query {
+  machine: [Machine!]!
+  user: [User!]!
+  laserCutter: [LaserCutter!]!
+  laserCutterReservation: [LaserCutterReservation!]!
+}
+
+type Mutation {
+  createLaserCutter(info: CreateLaserInfo!): LaserCutter
+  updateLaserCutter(info: UpdateLaserInfo!): LaserCutter
+  deleteLaserCutter(id: ID!): String
+  createLaserReserve(info: ReserveLaserCutter!): LaserCutterReservation!
+  cancelLaserReserve(teamId: ID!): LaserCutterReservation!
+  laserCutterReserve(teamId: ID!): LaserCutterReservation!
+  clearLaserReserve(teamId: ID!): LaserCutterReservation!
+  createMachine(info: CreateMachineInfo!): Machine!
+  clearMachine: String!
+  deleteMachine(info: DeleteMachineInfo!): String!
+  userReserveMachine(info: ReserveMachineInfo!): String!
+  userCancelMachine(info: Int!): String!
+  adminCancelAllMachine: String!
+  adminUpdateUser(info: UpdateUserInfo!): String!
+  adminClearUser: String!
+  adminUpdateMachine(info: UpdateMachineInfo!): String!
+  updateAll: String!
+}
+
+input UpdateMachineInfo {
+  name: String!
+  status: Int!
+}
+
+input UpdateUserInfo {
+  teamId: Int!
+  status: Int!
+  machineName: String
+}
+
+input DeleteMachineInfo {
+  name: String!
+}
+
+type Subscription {
+  LaserCutterInfo: LaserCutter!
+  LaserCutterReservation: LaserCutterReservation!
+  machineUpdated: [Machine!]!
+  userUpdated: [User!]!
+}
+
+type User {
+  teamId: Int!
+  status: Int!
+  machine: String
+}
+
+input ReserveMachineInfo {
+  teamId: Int!
+}
+
+type MachineReservation {
+  mutation: String!
+}
+
+input CreateMachineInfo {
+  name: String!
+  type: String!
+  duration: Int!
+}
+
+input CreateLaserInfo {
+  id: ID!
+  status: Int # mongo已經設定default就不用強制輸入
+  duration: Int # mongo已經設定default就不用強制輸入
+  user: String
+  completeTime: String
+}
+
+input UpdateLaserInfo {
+  id: ID!
+  status: Int!
+  duration: Int
+  user: String
+  completeTime: String
+}
+
+type LaserCutter {
+  id: ID!
+  status: Int!
+  duration: Int
+  user: String
+  completeTime: String
+}
+
+type Machine {
+  id: ID
+  name: String!
+  type: String!
+  status: Int!
+  duration: Int!
+  user: String
+  completeTime: String
+}
+
+# ======== Resevation of laser cutter ========
+
+input ReserveLaserCutter {
+  teamId: ID!
+  material: String!
+  thickness: String!
+}
+
+type LaserCutterReservation {
+  teamId: ID!
+  material: String
+  thickness: String
+  reserveStatus: Int # default=1
+  updated_at: String!
+}

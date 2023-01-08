@@ -6,15 +6,20 @@ import { ThemeProvider } from "@mui/material/styles";
 // Route
 import { Redirect } from "react-router";
 import PublicRoute from "./components/routes/publicRoute";
-import PrivateRoute from "./components/routes/privateRoute";
+import AdminRoute from "./components/routes/adminRoute";
 import LoginRoute from "./components/routes/loginRoute";
 import MainRoute from "./components/routes/mainRoute";
-import AdminRoute from "./components/routes/adminRoute";
+import UserRoute from "./components/routes/userRoute";
+
 // containers
 import Drawer from "./containers/drawer";
 import Main from "./containers/main";
 import Login from "./containers/login";
 import StudentData from "./containers/studentData";
+import AdminLaserCutter from "./containers/admin_leichie";
+import LaserCutter from "./containers/user_leichie";
+
+import DP from "./containers/3dp";
 import theme from "./theme";
 // compononets
 import Loading from "./components/loading";
@@ -34,12 +39,24 @@ const Routes = () => {
       <MainRoute exact path="/">
         <Main />
       </MainRoute>
+      <MainRoute exact path="/3dp">
+        <DP />
+      </MainRoute>
+      <MainRoute exact path="/lasercutter">
+        <LaserCutter />
+      </MainRoute>
       <LoginRoute exact path="/login">
         <Login />
       </LoginRoute>
-      <PrivateRoute exact path="/studentdata">
+      <AdminRoute exact path="/studentdata">
         <StudentData />
-      </PrivateRoute>
+      </AdminRoute>
+      <AdminRoute exact path="/adminlasercutter">
+        <AdminLaserCutter />
+      </AdminRoute>
+      <AdminRoute exact path="/lasercutter">
+        <LaserCutter />
+      </AdminRoute>
       <Redirect to="/login" />
     </Switch>
   );

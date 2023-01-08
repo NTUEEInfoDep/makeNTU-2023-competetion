@@ -10,6 +10,7 @@ const deprecate = require("depd")("ntuee-course:api");
 const mongoose = require("mongoose");
 const constants = require("./constants");
 const model = require("./database/mongo/model");
+const { Machine } = require("./database/mongo/models/machine");
 
 // ========================================
 
@@ -42,10 +43,10 @@ const permissionRequired = (permission) =>
     }
     next();
   });
+// ========================================
 
 // ========================================
 // Session middleware
-
 const secret = uuid.v4();
 
 const RedisStore = connectRedis(session);
@@ -80,8 +81,154 @@ if (process.env.NODE_ENV === "production") {
 }
 
 router.use(session(sessionOptions));
-
 // ========================================
+
+// ======================================== Machine API ========================================
+router.post(
+  "/machines",
+  loginRequired,
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res, next) => {
+    const { name, time } = req.body;
+    console.log(name, time);
+    const machine = new Machine({
+      machineName: name.toString(),
+      machineStatus: "idle",
+      machineTime: time,
+      machineUserID: "-1",
+      machineLeftTime: 0,
+    });
+    await machine.save();
+    res.status(200).end();
+  })
+);
+
+router.get(
+  "/people2machine",
+  loginRequired,
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const { machineID, userID } = req.body;
+    const machine = await Machine.find({ MachineName: machineID });
+    machine.machineStatus = "using";
+    machine.machineUserID = userID;
+    machine.machineLeftTime = machine.machineTime;
+    await machine.save();
+    const machineList = await Machine.find({});
+    res.status(200).json(machineList);
+  })
+);
+
+router.get(
+  "/machines",
+  loginRequired,
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const machines = await Machine.find();
+    console.log(machines);
+    res.status(200).json(machines);
+  })
+);
+
+router.delete(
+  "/machines",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    await Machine.deleteMany();
+    res.status(200).end();
+  })
+);
+
+router.delete(
+  "/machines/:id",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await Machine.deleteOne({
+      MachineName: id,
+    });
+    res.status(200).end();
+  })
+);
+
+// ======================================== Machine API End ========================================
+
+// ======================================== Team API ========================================
+
+router.get(
+  "/teams",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const teams = await model.Team.find();
+    res.status(200).json(teams);
+  })
+);
+
+router.get(
+  "/teams/:id",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const team = await model.Team.findOne({
+      teamID: id,
+    });
+    res.status(200).json(team);
+  })
+);
+
+router.post(
+  "/teams",
+  loginRequired,
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const { teamID, teamName, status } = req.body;
+    const team = new model.Team({
+      teamID,
+      teamName,
+      status,
+    });
+    await team.save();
+    res.status(200).end();
+  })
+);
+
+router.delete(
+  "/teams",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    await model.Team.deleteMany();
+    res.status(200).end();
+  })
+);
+
+router.delete(
+  "/teams/:id",
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const { teamID } = req.body;
+    await model.Team.deleteOne({
+      teamID: teamID,
+    });
+    res.status(200).end();
+  })
+);
+
+router.post(
+  "/teams/:id",
+  loginRequired,
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const { teamID, teamName, status } = req.body;
+    const team = await model.Team.findOne({
+      teamID: teamID,
+    });
+    team.teamName = teamName;
+    team.status = status;
+    await team.save();
+  })
+);
+
+// ======================================== Team API End ========================================
 
 router
   .route("/session")
@@ -380,4 +527,7 @@ router.route("/authority").put(
   })
 );
 
-module.exports = router;
+module.exports = {
+  router,
+  loginRequired,
+};

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const { MONGO_HOST, MONGO_DBNAME } = process.env;
+const { MONGO_HOST, MONGO_DBNAME, MONGO_URL } = process.env;
 const conn = mongoose.createConnection(
   `mongodb://${MONGO_HOST}/${MONGO_DBNAME}`,
   {
@@ -39,7 +39,6 @@ const teamSchema = new mongoose.Schema({
     required: true,
     immutable: false,
   },
-  // selections,
 });
 
 const Team = conn.model("Team", teamSchema);
